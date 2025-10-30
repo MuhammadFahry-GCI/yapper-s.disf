@@ -467,7 +467,7 @@
             color: #E1306C;
         }
 
-        /* Gallery Section - UPDATED */
+        /* Gallery Section */
         .gallery-section {
             background: linear-gradient(180deg, #0a0e1a 0%, #0f1628 100%);
             position: relative;
@@ -519,7 +519,6 @@
             justify-content: center;
         }
 
-        /* Foto landscape (lebar) */
         .gallery-item.landscape {
             align-items: center;
         }
@@ -531,7 +530,6 @@
             object-fit: contain;
         }
 
-        /* Foto portrait (tinggi) */
         .gallery-item.portrait {
             align-items: flex-end;
         }
@@ -729,7 +727,7 @@
             }
         }
 
-        /* Responsive */
+        /* Responsive - OPTIMIZED MOBILE */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2.5rem;
@@ -752,20 +750,90 @@
                 gap: 20px;
             }
 
+            /* CARD LEBIH KECIL DI MOBILE */
             .mahasiswa-card,
             .mahasiswa-photo-container {
-                width: 300px;
-                min-width: 300px;
+                width: 280px;
+                min-width: 280px;
             }
 
             .mahasiswa-photo-container {
-                height: 340px;
+                height: 300px;
             }
 
+            /* INFO LEBIH KOMPAK */
+            .mahasiswa-info {
+                padding: 20px;
+            }
+
+            .mahasiswa-info h3 {
+                font-size: 1.4rem;
+                margin-bottom: 6px;
+            }
+
+            .mahasiswa-info .nim {
+                font-size: 0.85rem;
+                margin-bottom: 15px;
+            }
+
+            /* DETAILS LEBIH RINGKAS */
+            .mahasiswa-details {
+                padding: 15px;
+                margin-top: 15px;
+            }
+
+            .mahasiswa-details p {
+                margin: 8px 0;
+                font-size: 0.85rem;
+                gap: 8px;
+            }
+
+            .mahasiswa-details p strong {
+                min-width: 65px;
+                font-size: 0.85rem;
+            }
+
+            /* SOCIAL BUTTONS LEBIH KECIL */
+            .social-links {
+                gap: 10px;
+                margin-top: 15px;
+            }
+
+            .social-btn {
+                width: 40px;
+                height: 40px;
+            }
+
+            .social-btn svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            /* BADGE LEBIH KECIL */
+            .mahasiswa-badge {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+                top: 15px;
+                right: 15px;
+            }
+
+            /* GALLERY MOBILE */
             .gallery-item {
-                width: 360px;
-                min-width: 360px;
-                height: 360px;
+                width: 320px;
+                min-width: 320px;
+                height: 320px;
+            }
+
+            .gallery-overlay {
+                padding: 20px;
+            }
+
+            .gallery-overlay h4 {
+                font-size: 1.2rem;
+            }
+
+            .gallery-overlay p {
+                font-size: 0.85rem;
             }
 
             section {
