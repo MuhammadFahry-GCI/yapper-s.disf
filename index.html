@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Kelas - yapper's.Dsif25</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #e8edf2;
+            background: #0a0e1a;
+            overflow-x: hidden;
+        }
+
+        /* Landing Page */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0, 30, 60, 0.3), rgba(10, 50, 80, 0.4)),
+                url('bakground/bg2.jpeg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0, 120, 180, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(70, 150, 200, 0.1) 0%, transparent 50%);
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 30% 40%, rgba(0, 120, 180, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(70, 150, 200, 0.06) 0%, transparent 50%);
+            animation: shimmer 8s ease-in-out infinite;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(0, 120, 180, 0.1), rgba(70, 150, 200, 0.05));
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            top: 60%;
+            right: 10%;
+            animation-delay: -7s;
+        }
+
+        .shape:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: -14s;
+        }
+
+        .hero-content {
+            z-index: 1;
+            animation: fadeInUp 1.2s ease;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 120, 180, 0.15);
+            border: 1px solid rgba(70, 150, 200, 0.4);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1.5s ease;
+            box-shadow: 0 0 30px rgba(0, 120, 180, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-shadow: 0 0 60px rgba(0, 120, 180, 0.4);
+            line-height: 1.1;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 2.5rem;
+            color: #cbd5e1;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: fadeIn 1.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            font-weight: 400;
+            letter-spacing: 1px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-line {
+            width: 120px;
+            height: 3px;
+            background: linear-gradient(to right, #0078B4, #87CEEB, #0078B4);
+            margin: 25px auto;
+            box-shadow: 0 0 20px rgba(0, 120, 180, 0.6);
+            animation: lineGlow 2s ease-in-out infinite;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2.5rem;
+            color: #87CEEB;
+            filter: drop-shadow(0 0 10px rgba(135, 206, 235, 0.6));
+        }
+
+        .hero-social {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            z-index: 2;
+        }
+
+        .hero-social-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.4s;
+            font-size: 1.8rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-social-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, #0078B4, #87CEEB);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .hero-social-btn:hover::before {
+            opacity: 1;
+        }
+
+        .hero-social-btn:hover {
+            transform: translateY(-8px) scale(1.15);
+            box-shadow: 0 15px 40px rgba(0, 120, 180, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .hero-social-btn.instagram {
+            color: #E1306C;
+        }
+
+        .hero-social-btn.tiktok {
+            color: #000000;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 120px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 5rem;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        /* Mahasiswa Cards */
+        .mahasiswa-grid {
+            display: flex;
+            gap: 45px;
+            margin-top: 60px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 20px 0 40px 0;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .mahasiswa-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mahasiswa-card {
+            background: linear-gradient(145deg, #0f172a, #1e293b);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(0, 120, 180, 0.1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            width: 340px;
+            min-width: 340px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+        }
+
+        .mahasiswa-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0078B4, #87CEEB, #0078B4);
+            transform: scaleX(0);
+            transition: transform 0.5s;
+            z-index: 10;
+        }
+
+        .mahasiswa-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 70px rgba(0, 120, 180, 0.3),
+                0 0 0 1px rgba(0, 120, 180, 0.3);
+        }
+
+        .mahasiswa-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .mahasiswa-photo-container {
+            position: relative;
+            width: 340px;
+            height: 380px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #003d5c, #1e293b);
+        }
+
+        .mahasiswa-photo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: all 0.6s;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .mahasiswa-card:hover .mahasiswa-photo {
+            transform: scale(1.15);
+            filter: brightness(1.05) contrast(1.15);
+        }
+
+        .mahasiswa-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 120, 180, 0.95);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 120, 180, 0.4);
+            z-index: 5;
+        }
+
+        .mahasiswa-info {
+            padding: 35px;
+            text-align: center;
+        }
+
+        .mahasiswa-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .mahasiswa-info .nim {
+            color: #87CEEB;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+        }
+
+        .mahasiswa-details {
+            background: rgba(0, 120, 180, 0.05);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 25px;
+            border: 1px solid rgba(0, 120, 180, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .mahasiswa-details p {
+            margin: 12px 0;
+            font-size: 0.95rem;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .mahasiswa-details p strong {
+            color: #e2e8f0;
+            font-weight: 600;
+            min-width: 80px;
+            flex-shrink: 0;
+        }
+
+        .mahasiswa-details p span {
+            text-align: right;
+            flex: 1;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-btn svg {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, #0078B4, #87CEEB);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 120, 180, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .instagram {
+            color: #E1306C;
+        }
+
+        /* Gallery Section - UPDATED */
+        .gallery-section {
+            background: linear-gradient(180deg, #0a0e1a 0%, #0f1628 100%);
+            position: relative;
+        }
+
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(0, 120, 180, 0.3), transparent);
+        }
+
+        .gallery-grid {
+            display: flex;
+            gap: 35px;
+            margin-top: 60px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 20px 0 40px 0;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .gallery-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            width: 520px;
+            height: 520px;
+            min-width: 520px;
+            border: 1px solid rgba(0, 120, 180, 0.1);
+            transition: all 0.5s;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+            background: #0a0e1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Foto landscape (lebar) */
+        .gallery-item.landscape {
+            align-items: center;
+        }
+
+        .gallery-item.landscape img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Foto portrait (tinggi) */
+        .gallery-item.portrait {
+            align-items: flex-end;
+        }
+
+        .gallery-item.portrait img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center bottom;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 120, 180, 0.1), rgba(70, 150, 200, 0.05));
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 1;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 70px rgba(0, 120, 180, 0.3);
+            border-color: rgba(0, 120, 180, 0.4);
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item img {
+            transition: all 0.7s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(10, 14, 26, 0.98), transparent);
+            color: white;
+            padding: 35px;
+            transform: translateY(100%);
+            transition: transform 0.5s;
+            z-index: 2;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #87CEEB;
+        }
+
+        .gallery-overlay p {
+            font-size: 1rem;
+            color: #cbd5e1;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #050810;
+            color: #64748b;
+            text-align: center;
+            padding: 60px 20px;
+            border-top: 1px solid rgba(0, 120, 180, 0.1);
+        }
+
+        footer p {
+            margin: 12px 0;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        footer p:first-child {
+            color: #94a3b8;
+            font-size: 1.05rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%);
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes lineGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(0, 120, 180, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(135, 206, 235, 0.9);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            33% {
+                transform: translateY(-50px) translateX(50px);
+            }
+
+            66% {
+                transform: translateY(-30px) translateX(-30px);
+            }
+        }
+
+        @keyframes titleGlow {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(0, 120, 180, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 40px rgba(135, 206, 235, 0.5));
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .mahasiswa-grid,
+            .gallery-grid {
+                gap: 20px;
+            }
+
+            .mahasiswa-card,
+            .mahasiswa-photo-container {
+                width: 300px;
+                min-width: 300px;
+            }
+
+            .mahasiswa-photo-container {
+                height: 340px;
+            }
+
+            .gallery-item {
+                width: 360px;
+                min-width: 360px;
+                height: 360px;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+
+            .hero-badge {
+                font-size: 0.8rem;
+                padding: 8px 20px;
+            }
+
+            .shape {
+                width: 200px !important;
+                height: 200px !important;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0e1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #0078B4, #003d5c);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #87CEEB, #0078B4);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Landing Page / Hero Section -->
+    <section class="hero">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">🎓 D'SIF 2025</div>
+            <h1>Yapper's.dsif</h1>
+            <p class="hero-subtitle">Grow Together, Shine Together</p>
+            <div class="hero-line"></div>
+            <p>Membangun masa depan digital dengan inovasi, kreativitas, dan kolaborasi.<br>Bersama kita lebih kuat,
+                bersama kita mencapai kesuksesan.</p>
+            <div class="hero-social">
+                <a href="https://www.instagram.com/yapper.dsif" target="_blank" class="hero-social-btn instagram"
+                    title="Instagram Kelas">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                </a>
+                <a href="https://tiktok.com/@kelasddisini" target="_blank" class="hero-social-btn tiktok"
+                    title="TikTok Kelas">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Data Mahasiswa Section -->
+    <section id="mahasiswa">
+        <h2 class="section-title">🜲 𝗠𝗘𝗠𝗕𝗘𝗥 𝗬𝗔𝗣𝗣𝗘𝗥'𝗦 🜲</h2>
+        <p class="section-subtitle">Keluarga Besar Kelas SIF'D25</p>
+        <div class="mahasiswa-grid" id="mahasiswaContainer"></div>
+    </section>
+
+    <!-- Gallery Kenangan Section -->
+    <section id="gallery" class="gallery-section">
+        <h2 class="section-title">GALERI</h2>
+        <p class="section-subtitle">Momen Berharga Bersama</p>
+        <div class="gallery-grid" id="galleryContainer"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Yappers'dsif25. All Rights Reserved.</p>
+        <p>Universitas Islam Sultan Syarif Kasim</p>
+    </footer>
+
+    <script>
+        // ====================================
+        // DATA MAHASISWA - EDIT DI SINI
+        // ====================================
+        const mahasiswaData = [
+            {
+                nama: "Muhammad Fa'hriyansah",
+                nim: "12550312203",
+                jurusan: "SISTEM INFORMASI",
+                Role: "KOSMA",
+                email: "fahriyansahm@gmail.com",
+                foto: "PM/fahri.jpeg",
+                instagram: "https://instagram.com/muhammadfahryansah",
+            },
+            {
+                nama: "Muhammad 'Ammar Rohid ",
+                nim: "12550312155",
+                jurusan: "SISTEM INFORMASI",
+                Role: "WAKOSMA",
+                email: "aaiiddkuy@gmail.com ",
+                foto: "PM/amar.jpeg",
+                instagram: "https://www.instagram.com/aaiidd_06?igsh=MTdxY2RxNHhyZWlncA==",
+            },
+            {
+                nama: "Zilfa Artika",
+                nim: "12550322199",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Sekretaris",
+                email: "zilfaartika4@gmail.com",
+                foto: "PM/zilfa.jpeg",
+                instagram: "https://www.instagram.com/artikazilfaa__?igsh=MWE2dXo3bHBhOXZhMA==",
+            },
+            {
+                nama: "NAZTI CANTIKA HARUM",
+                nim: "12550321986",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Bendahara",
+                email: "nazticantikaharum@gmail.com",
+                foto: "PM/nazti.jpeg",
+                instagram: "https://www.instagram.com/nazticantika?igsh=b2IzdWZ0dGZzOGl4",
+            },
+            {
+                nama: "Andre Satria Wijaya",
+                nim: "12550312114",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Pangeran",
+                email: "andresatriw8@gmail.com",
+                foto: "PM/andre.jpeg",
+                instagram: "https://www.instagram.com/ndreesatria?igsh=MTg5ZDY0d3drMnU2ZQ==",
+            },
+            {
+                nama: "RIDHO KURNIA FADRI",
+                nim: "12550312161",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "ridhokuniafadri@gmail.com",
+                foto: "PM/ridho.jpeg",
+                instagram: "https://www.instagram.com/ridho_rmg",
+            },
+            {
+                nama: "Zulfikri Darmawan",
+                nim: "12550312096",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: " fikrifikri12342@gmail.com",
+                foto: "PM/zulf.jpeg",
+                instagram: "https://www.instagram.com/zulfikri_d20?igsh=MW1tZms4aHR1a3g4cA==",
+            },
+            {
+                nama: "nazwa azzahra",
+                nim: "12550322002",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "azzahranazwa299@gmail.com",
+                foto: "PM/nazwa.jpeg",
+                instagram: "https://www.instagram.com/nzwaa.rra?igsh=MXJwczMyNXMxeXRqYg==",
+            },
+            {
+                nama: "Salma Raihana Tovani",
+                nim: "12550322249",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "salmaraihana91@gmail.com",
+                foto: "PM/salma.jpeg",
+                instagram: "https://www.instagram.com/_salmaraihana?igsh=MW8xNDNkNjNza2JkMA==",
+            },
+            {
+                nama: "NurHatifah ",
+                nim: "12550322048",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Seleb",
+                email: "nurhatifah299@gmail.com",
+                foto: "PM/tifa.jpg",
+                instagram: "https://www.instagram.com/tyxhfaaa_?igsh=dmpzeHJtYnBqb25q&utm_source=qr",
+            },
+            {
+                nama: "Oktari Viandria Zola",
+                nim: "12550322289",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Pacar Canva Narendra",
+                email: "12550322289@students.uin-suska.ac.id",
+                foto: "PM/olaa.jpg",
+                instagram: "https://www.instagram.com/0ollaaa_?igsh=dGNoZ3R1ZDRhcTlj&utm_source=qr",
+            },
+            {
+                nama: "Nisa Widia Pertiwi",
+                nim: "12550322377",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Pacarnya Ghaza Alfaraby",
+                email: "nwidiapertiwi@gmail.com ",
+                foto: "PM/nica.jpg",
+                instagram: "https://www.instagram.com/nisaa.widia?igsh=eHJ3eTlpNDByaWJz",
+            },
+            {
+                nama: "Wardah harahap",
+                nim: " 125503222332",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "Wardahharahap05@gmail.com",
+                foto: "PM/wardah.jpeg",
+                instagram: "https://www.instagram.com/wardah_hrp15?igsh=MTQ2c2hwYW8waWk4aQ==",
+            },
+            {
+                nama: "Elis Sukma Ariani",
+                nim: "12550322371",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Pacar Afrizal Dwi Syaptra",
+                email: "12550322371@studens.uin-suska.ac.id",
+                foto: "PM/elsa.jpeg",
+                instagram: "https://www.instagram.com/___ellssaaa?igsh=eTJjcDhvd3QzcnI2",
+            },
+            {
+                nama: "fatma fanesa ",
+                nim: "12550322143",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "fatmavanesa2@gmail.com",
+                foto: "PM/fatma.jpeg",
+                instagram: "https://www.instagram.com/ftmvvanesa__?igsh=MWo2Z2NzNXUyZ2RtcA==",
+            },
+            {
+                nama: "Alinka Shinta Ramadhani ",
+                nim: "12550322218",
+                jurusan: "SISTEM INFORMASI",
+                Role: "BadGirls",
+                email: "alinkashintaramadhani@gmail.com ",
+                foto: "PM/alin.jpeg",
+                instagram: "https://www.instagram.com/lynx_vnn?igsh=eGtxbmU2MzQwMmV3",
+            },
+            {
+                nama: "Aura Putri Natasya",
+                nim: "12550322112",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "auranatasya0103@gmail.com",
+                foto: "PM/aura.jpg",
+                instagram: "https://www.instagram.com/auraptry?igsh=ZGRkamFtdmMwdWhz",
+            },
+            {
+                nama: "Muhammad Adam",
+                nim: "12550312130",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Badut Kelas",
+                email: "muhammadadam10176@gmail.com",
+                foto: "PM/adam.jpg",
+                instagram: "https://www.instagram.com/damdmw_?igsh=M2tuOGprbXF5YXpu",
+            },
+            {
+                nama: "Aury Saddam",
+                nim: "12550312091",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "aurysa264@gmail.com",
+                foto: "PM/aury.jpg",
+                instagram: "https://www.instagram.com/heilanstatten_aury?igsh=MWgyM3RoMjl6MGQ0dQ==",
+            },
+            {
+                nama: "Arya Nanda",
+                nim: "12550315382",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Artis",
+                email: "aryananda1106@gmail.com",
+                foto: "PM/arya.jpeg",
+                instagram: "https://www.instagram.com/aryaa11____?igsh=aW13NW92OTlwdnpz",
+            },
+            {
+                nama: "Daffa Arkan Ramadhan",
+                nim: "12550312157",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "daffa.arkan0910@gmail.com",
+                foto: "PM/dapung.jpg",
+                instagram: "https://www.instagram.com/daffaarknrmdhan?igsh=MW42YnQxMW03dWtjcg==",
+            },
+            {
+                nama: "Muhammad Aldi Rizalmi ",
+                nim: "12550312122",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "aldirizalmi2@gmail.com",
+                foto: "PM/aldi.jpeg",
+                instagram: "https://www.instagram.com/aldirzlmi25_?igsh=d3hvZncyNWt2dWh5",
+            },
+            {
+                nama: "Muhammad Fahril Luthfi  ",
+                nim: "12550312204",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "mfahrilluthfi@gmail.com",
+                foto: "PM/farel.jpeg",
+                instagram: "https://www.instagram.com/farelluth_?igsh=ZDVvbGV6bjFibnZi",
+            },
+            {
+                nama: "Raditya Wijaya",
+                nim: "12550312195",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "raditya1265@gmail.com ",
+                foto: "PM/radit.png",
+                instagram: "https://www.instagram.com/wijayy_1?igsh=OXF1YTd5enlnZnRy",
+            },
+            {
+                nama: "Risky Kurniawan",
+                nim: " 12550312189",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "riskykrnwan05gmail.com",
+                foto: "PM/risky.jpeg",
+                instagram: "https://www.instagram.com/riskykrnwnnn?igsh=MXhtajBuemI2cWxjYQ==",
+            },
+            {
+                nama: "Hidayat Ramadhan",
+                nim: " 12550312193",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "hidayatramadhan721@gmail.com",
+                foto: "PM/dayat.jpeg",
+                instagram: "https://www.instagram.com/_hidayatramadhan?igsh=eXU5c3p2Mmh2dXds",
+            },
+            {
+                nama: "Alviqra irvan yhuda",
+                nim: " 12550312241",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "alviqrayuda@gmail.com",
+                foto: "PM/viqra.jpeg",
+                instagram: "https://www.instagram.com/alviqra.irvann?igsh=aDhram5mY2x2OWl2",
+            },
+            {
+                nama: "Muhammad Aqil Al Israr",
+                nim: " 12550312230",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "12550312230@students.uin-suska.ac.id",
+                foto: "PM/aqil.jpeg",
+                instagram: "https://www.instagram.com/aqielisrarr?igsh=MWdtNnl4cGtsd3h0Ng==",
+            },
+            {
+                nama: "Elvan Zulfi",
+                nim: " 12550312144",
+                jurusan: "SISTEM INFORMASI",
+                Role: "Member",
+                email: "elpanzulpi@gmail.com",
+                foto: "PM/elvan.jpeg",
+                instagram: "https://www.instagram.com/elvan_zulfi1?igsh=dHVleGdlcmg1aTBs",
+            },
+
+        ];
+
+        // ====================================
+        // DATA GALLERY - EDIT DI SINI
+        // orientation: 'landscape' untuk foto lebar (kiri-kanan)
+        // orientation: 'portrait' untuk foto tinggi (atas-bawah)
+        // ====================================
+        const galleryData = [
+            {
+                image: "PB/fotbar2.jpg",
+                title: "Foto Bersama",
+                description: "Foto bersama pertama kali habis matkul PPKN",
+                orientation: "portrait"
+            },
+            {
+                image: "PB/fotbar4.jpeg",
+                title: "Foto Bersama",
+                description: "Foto bersama pertama kali habis matkul AKIDAH",
+                orientation: "landscape"
+            },
+            {
+                image: "PB/fotbar3.jpg",
+                title: "Foto Bersama",
+                description: "Foto bersama saat setelah Kena bantai Tugas Makalah Matkul OM",
+                orientation: "portrait"
+            },
+            {
+                image: "PB/fotbar1.jpg",
+                title: "Foto Bersama",
+                description: "Foto bersama Setelah 1 bulan perkuliahan",
+                orientation: "landscape"
+            },
+            {
+                image: "PB/makrab.jpg",
+                title: "Foto Bersama",
+                description: "Foto bersama pertama kali habis matkul PPKN",
+                orientation: "landscape"
+            },
+            {
+                image: "PB/utsppkn.jpg",
+                title: "Foto Bersama",
+                description: "Foto bersama habis UTS PPKN baju putih hitam",
+                orientation: "portrait"
+            },
+            {
+                image: "PB/cowocowo.jpeg",
+                title: "Foto cowocowo Yapper's.dsif",
+                description: "Foto cowocowo Yapper's.dsif",
+                orientation: "portrait"
+            },
+            {
+                image: "PB/ciwiciwi2.jpg",
+                title: "Foto ciwiciwi Yapper's.dsif",
+                description: "Foto ciwiciwi Yapper's.dsif habis UTS PPKN baju putih hitam",
+                orientation: "portrait"
+            },
+            {
+                image: "PB/ciwiciwi1.jpg",
+                title: "Foto ciwiciwi Yapper's.dsif",
+                description: "Foto untuk trend Tiktok",
+                orientation: "landscape"
+            },
+            {
+                image: "PB/kuliahumum.jpg",
+                title: "Foto Member Yapper's.dsif",
+                description: "Foto Member Yapper's.dsif habis ikut Kuliah Umum",
+                orientation: "portrait"
+            },
+            {
+                image: "PB/ciwiciwiKU.jpeg",
+                title: "Foto ciwiciwi Yapper's.dsif",
+                description: "Foto ciwiciwi Yapper's.dsif habis ikut Kuliah Umum",
+                orientation: "portrait"
+            },
+
+
+        ];
+
+        // ====================================
+        // JANGAN EDIT KODE DI BAWAH INI
+        // ====================================
+
+        // Render Mahasiswa Cards
+        function renderMahasiswa() {
+            const container = document.getElementById('mahasiswaContainer');
+            container.innerHTML = mahasiswaData.map(mhs => {
+                return `
+                    <div class="mahasiswa-card">
+                        <div class="mahasiswa-photo-container">
+                            <img src="${mhs.foto}" alt="${mhs.nama}" class="mahasiswa-photo">
+                            <div class="mahasiswa-badge">MAHASISWA</div>
+                        </div>
+                        <div class="mahasiswa-info">
+                            <h3>${mhs.nama}</h3>
+                            <p class="nim">${mhs.nim}</p>
+                            <div class="mahasiswa-details">
+                                <p><strong>Jurusan</strong><span>${mhs.jurusan}</span></p>
+                                <p><strong>Role</strong><span>${mhs.Role}</span></p>
+                                <p><strong>Email</strong><span>${mhs.email}</span></p>
+                            </div>
+                            <div class="social-links">
+                                <a href="${mhs.instagram}" target="_blank" class="social-btn instagram" title="Instagram">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render Gallery
+        function renderGallery() {
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = galleryData.map(item => `
+                <div class="gallery-item ${item.orientation}">
+                    <img src="${item.image}" alt="${item.title}">
+                    <div class="gallery-overlay">
+                        <h4>${item.title}</h4>
+                        <p>${item.description}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMahasiswa();
+            renderGallery();
+        });
+
+        // Smooth scroll for indicator
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.getElementById('mahasiswa').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+
+</html>
