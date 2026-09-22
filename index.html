@@ -740,6 +740,15 @@
             scroll-snap-type: x mandatory;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            cursor: grab;
+            touch-action: pan-y;
+            user-select: none;
+        }
+
+        .members-scroll.dragging {
+            cursor: grabbing;
+            scroll-behavior: auto;
+            scroll-snap-type: none;
         }
 
         .members-scroll::-webkit-scrollbar {
@@ -757,19 +766,30 @@
             overflow: hidden;
             transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), box-shadow .5s, border-color .4s;
             position: relative;
+            transform-style: preserve-3d;
+            perspective: 1100px;
+            --card-rotate-x: 0deg;
+            --card-rotate-y: 0deg;
         }
 
         .mcard.hidden {
             display: none;
         }
 
-        .mcard:hover {
-            transform: translateY(-16px);
-            box-shadow: 0 36px 72px rgba(0, 0, 0, .65), 0 0 0 1px rgba(90, 176, 232, .22);
+        .mcard:hover,
+        .mcard.tap-active {
+            transform: translateY(-18px) scale(1.02) rotateX(var(--card-rotate-x)) rotateY(var(--card-rotate-y));
+            box-shadow: 0 40px 84px rgba(0, 0, 0, .7), 0 0 0 1px rgba(90, 176, 232, .28);
+            z-index: 5;
         }
 
-        .mcard.girl:hover {
-            box-shadow: 0 36px 72px rgba(0, 0, 0, .65), 0 0 0 1px rgba(232, 122, 154, .22);
+        .members-scroll.dragging .mcard {
+            pointer-events: none;
+        }
+
+        .mcard.girl:hover,
+        .mcard.girl.tap-active {
+            box-shadow: 0 40px 84px rgba(0, 0, 0, .7), 0 0 0 1px rgba(232, 122, 154, .28);
         }
 
         .mcard::before {
@@ -790,7 +810,8 @@
             background: linear-gradient(90deg, var(--rose), var(--gold), #f9a8c9);
         }
 
-        .mcard:hover::before {
+        .mcard:hover::before,
+        .mcard.tap-active::before {
             transform: scaleX(1);
         }
 
@@ -805,7 +826,8 @@
             pointer-events: none;
         }
 
-        .mcard:hover::after {
+        .mcard:hover::after,
+        .mcard.tap-active::after {
             transform: translateX(100%);
         }
 
@@ -815,6 +837,34 @@
             background: var(--panel);
             position: relative;
             overflow: hidden;
+            perspective: 900px;
+            transform-style: preserve-3d;
+            --photo-x: 0deg;
+            --photo-y: 0deg;
+            --photo-light-x: 50%;
+            --photo-light-y: 50%;
+            transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+        }
+
+        .mcard-photo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(circle at var(--photo-light-x) var(--photo-light-y), rgba(255, 255, 255, .26), transparent 34%);
+            mix-blend-mode: screen;
+            transition: opacity .35s ease;
+        }
+
+        .mcard:hover .mcard-photo::before,
+        .mcard.tap-active .mcard-photo::before {
+            opacity: 1;
+        }
+
+        .mcard-photo.is-pressed {
+            transform: scale(.99);
         }
 
         .mcard-photo img {
@@ -822,14 +872,22 @@
             height: 100%;
             object-fit: cover;
             object-position: center top;
-            transition: transform .75s cubic-bezier(.33, 1, .68, 1), filter .5s;
+            transform: scale(1) rotateX(var(--photo-y)) rotateY(var(--photo-x));
+            transform-origin: center;
+            transition: transform .35s cubic-bezier(.22, 1, .36, 1), filter .5s;
             filter: saturate(.85) brightness(.92);
             display: block;
+            -webkit-user-drag: none;
         }
 
-        .mcard:hover .mcard-photo img {
-            transform: scale(1.07);
-            filter: saturate(1.08) brightness(1.04);
+        .mcard:hover .mcard-photo img,
+        .mcard.tap-active .mcard-photo img {
+            transform: scale(1.16) translateZ(34px) rotateX(var(--photo-y)) rotateY(var(--photo-x));
+            filter: saturate(1.15) brightness(1.08);
+        }
+
+        .mcard-photo.is-pressed img {
+            transform: scale(1.2) translateZ(34px) rotateX(var(--photo-y)) rotateY(var(--photo-x));
         }
 
         .mcard-photo::after {
@@ -841,29 +899,6 @@
             height: 80px;
             background: linear-gradient(to top, var(--card), transparent);
             pointer-events: none;
-        }
-
-        .mcard-badge {
-            position: absolute;
-            top: 14px;
-            left: 14px;
-            z-index: 3;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: .88rem;
-            font-style: italic;
-            font-weight: 600;
-            letter-spacing: .3px;
-            background: rgba(2, 6, 15, .8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(90, 176, 232, .22);
-            color: var(--sky);
-            padding: 5px 15px;
-            border-radius: 100px;
-        }
-
-        .mcard.girl .mcard-badge {
-            border-color: rgba(232, 122, 154, .22);
-            color: #f4a8c0;
         }
 
         .mcard-num {
@@ -1120,10 +1155,13 @@
             scrollbar-width: thin;
             scrollbar-color: rgba(90, 176, 232, .3) transparent;
             cursor: grab;
+            touch-action: pan-y;
+            user-select: none;
         }
 
-        .gallery-2d-outer:active {
+        .gallery-2d-outer.dragging {
             cursor: grabbing;
+            scroll-behavior: auto;
         }
 
         .gallery-2d-outer::-webkit-scrollbar {
@@ -1161,6 +1199,15 @@
             position: relative;
             cursor: zoom-in;
             height: 100%;
+        }
+
+        .gallery-2d-outer.dragging .gitem {
+            cursor: grabbing;
+        }
+
+        .gitem img {
+            -webkit-user-drag: none;
+            user-select: none;
         }
 
         .gitem.tall {
@@ -1246,6 +1293,11 @@
             letter-spacing: 3px;
             text-transform: uppercase;
             color: var(--muted);
+        }
+
+        .gallery-hint strong {
+            color: var(--sky);
+            font-weight: 400;
         }
 
         .gallery-hint-arrow {
@@ -1548,6 +1600,10 @@
                 width: 250px;
             }
 
+            .mcard-photo::before {
+                display: none;
+            }
+
             .gtab-btn {
                 padding: 12px 22px;
                 font-size: .55rem;
@@ -1743,7 +1799,7 @@
             <div class="gallery-hint-arrow">
                 <span></span><span></span><span></span>
             </div>
-            Geser untuk melihat lebih banyak foto
+            <span><strong>Tahan lalu geser</strong> untuk melihat lebih banyak foto</span>
         </div>
         <div class="gallery-2d-outer" id="galleryOuter">
             <div class="gallery-2d-grid" id="galleryContainer"></div>
@@ -1899,7 +1955,6 @@
             return `<div class="mcard rv ${m.gender}" data-name="${m.nama.toLowerCase()}" data-vibe="${m.vibe.toLowerCase()}" data-gender="${m.gender}" style="transition-delay:${i * .04}s">
     <div class="mcard-photo">
       <img src="${m.foto}" alt="${m.nama}" loading="lazy">
-      <div class="mcard-badge">${m.vibe}</div>
       <div class="mcard-num">${String(globalIdx + 1).padStart(2, '0')}</div>
     </div>
     <div class="mcard-body">
@@ -1920,6 +1975,152 @@
         document.getElementById('allContainer').innerHTML = members.map((m, i) => buildCard(m, i, i)).join('');
         document.getElementById('boyContainer').innerHTML = boys.map((m, i) => buildCard(m, i, i)).join('');
         document.getElementById('girlContainer').innerHTML = girls.map((m, i) => buildCard(m, i, i)).join('');
+
+        /* MEMBER INTERACTIONS */
+        (function memberInteractions() {
+            document.querySelectorAll('.members-scroll').forEach(row => {
+                let isDragging = false, moved = false, startX = 0, scrollLeft = 0;
+                let lastX = 0, velocity = 0, glideFrame = 0;
+
+                const stopGlide = () => {
+                    if (glideFrame) cancelAnimationFrame(glideFrame);
+                    glideFrame = 0;
+                };
+
+                const glide = () => {
+                    row.scrollLeft += velocity;
+                    velocity *= .93;
+                    if (Math.abs(velocity) > .15) glideFrame = requestAnimationFrame(glide);
+                    else glideFrame = 0;
+                };
+
+                row.addEventListener('pointerdown', e => {
+                    if (e.pointerType === 'mouse' && e.button !== 0) return;
+                    stopGlide();
+                    isDragging = true;
+                    moved = false;
+                    startX = e.clientX;
+                    lastX = e.clientX;
+                    velocity = 0;
+                    scrollLeft = row.scrollLeft;
+                    row.setPointerCapture(e.pointerId);
+                    row.classList.add('dragging');
+                });
+
+                row.addEventListener('pointermove', e => {
+                    if (!isDragging) return;
+                    const distance = e.clientX - startX;
+                    const delta = e.clientX - lastX;
+                    if (Math.abs(distance) > 4) moved = true;
+                    row.scrollLeft -= delta * 1.15;
+                    velocity = -delta * 1.15;
+                    lastX = e.clientX;
+                    if (moved) e.preventDefault();
+                });
+
+                const stopDragging = (e, continueGlide = false) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    row.classList.remove('dragging');
+                    if (e.pointerId !== undefined && row.hasPointerCapture(e.pointerId)) row.releasePointerCapture(e.pointerId);
+                    if (continueGlide && moved) glideFrame = requestAnimationFrame(glide);
+                };
+
+                row.addEventListener('pointerup', e => stopDragging(e, true));
+                row.addEventListener('pointercancel', e => stopDragging(e));
+                row.addEventListener('click', e => {
+                    if (moved) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        moved = false;
+                    }
+                }, true);
+            });
+
+            document.querySelectorAll('.mcard-photo').forEach(photo => {
+                const card = photo.closest('.mcard');
+
+                photo.addEventListener('pointerdown', () => photo.classList.add('is-pressed'));
+                photo.addEventListener('pointerup', () => photo.classList.remove('is-pressed'));
+                photo.addEventListener('pointercancel', () => photo.classList.remove('is-pressed'));
+
+                photo.addEventListener('pointermove', e => {
+                    if (e.pointerType !== 'mouse') return;
+                    const bounds = photo.getBoundingClientRect();
+                    const x = (e.clientX - bounds.left) / bounds.width;
+                    const y = (e.clientY - bounds.top) / bounds.height;
+                    const rotateX = (x - .5) * 14;
+                    const rotateY = (y - .5) * -14;
+                    card.style.setProperty('--card-rotate-y', ((x - .5) * 5).toFixed(2) + 'deg');
+                    card.style.setProperty('--card-rotate-x', ((y - .5) * -5).toFixed(2) + 'deg');
+                    photo.style.setProperty('--photo-x', rotateX.toFixed(2) + 'deg');
+                    photo.style.setProperty('--photo-y', rotateY.toFixed(2) + 'deg');
+                    photo.style.setProperty('--photo-light-x', (x * 100).toFixed(1) + '%');
+                    photo.style.setProperty('--photo-light-y', (y * 100).toFixed(1) + '%');
+                });
+
+                photo.addEventListener('pointerleave', () => {
+                    photo.classList.remove('is-pressed');
+                    card.style.setProperty('--card-rotate-x', '0deg');
+                    card.style.setProperty('--card-rotate-y', '0deg');
+                    photo.style.setProperty('--photo-x', '0deg');
+                    photo.style.setProperty('--photo-y', '0deg');
+                    photo.style.setProperty('--photo-light-x', '50%');
+                    photo.style.setProperty('--photo-light-y', '50%');
+                });
+            });
+
+            /* TAP-TO-TILT: efek pop-out & miring buat layar sentuh (klik/tap) */
+            document.querySelectorAll('.mcard').forEach(card => {
+                const photo = card.querySelector('.mcard-photo');
+                let touchMoved = false, touchStartX = 0, touchStartY = 0;
+
+                photo.addEventListener('pointerdown', e => {
+                    if (e.pointerType !== 'touch') return;
+                    touchMoved = false;
+                    touchStartX = e.clientX;
+                    touchStartY = e.clientY;
+                });
+
+                photo.addEventListener('pointermove', e => {
+                    if (e.pointerType !== 'touch') return;
+                    if (Math.abs(e.clientX - touchStartX) > 8 || Math.abs(e.clientY - touchStartY) > 8) touchMoved = true;
+                });
+
+                photo.addEventListener('pointerup', e => {
+                    if (e.pointerType !== 'touch' || touchMoved) return;
+                    const wasActive = card.classList.contains('tap-active');
+
+                    document.querySelectorAll('.mcard.tap-active').forEach(c => {
+                        c.classList.remove('tap-active');
+                        const p = c.querySelector('.mcard-photo');
+                        c.style.setProperty('--card-rotate-x', '0deg');
+                        c.style.setProperty('--card-rotate-y', '0deg');
+                        p.style.setProperty('--photo-x', '0deg');
+                        p.style.setProperty('--photo-y', '0deg');
+                        p.style.setProperty('--photo-light-x', '50%');
+                        p.style.setProperty('--photo-light-y', '50%');
+                    });
+
+                    if (!wasActive) {
+                        card.classList.add('tap-active');
+                        card.style.setProperty('--card-rotate-x', '-3deg');
+                        card.style.setProperty('--card-rotate-y', '3deg');
+                        photo.style.setProperty('--photo-x', '-6deg');
+                        photo.style.setProperty('--photo-y', '6deg');
+                        photo.style.setProperty('--photo-light-x', '65%');
+                        photo.style.setProperty('--photo-light-y', '35%');
+                    }
+                });
+            });
+
+            document.addEventListener('pointerdown', e => {
+                if (e.pointerType !== 'touch') return;
+                if (!e.target.closest('.mcard')) {
+                    document.querySelectorAll('.mcard.tap-active').forEach(c => c.classList.remove('tap-active'));
+                }
+            });
+        })();
 
         /* TAB TOGGLE */
         let currentTab = 'all';
@@ -1980,19 +2181,42 @@
         /* DRAG-TO-SCROLL */
         (function dragScroll() {
             const el = document.getElementById('galleryOuter');
-            let isDown = false, startX, scrollLeft;
-            el.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; });
-            el.addEventListener('mouseleave', () => isDown = false);
-            el.addEventListener('mouseup', () => isDown = false);
-            el.addEventListener('mousemove', e => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - el.offsetLeft;
-                el.scrollLeft = scrollLeft - (x - startX) * 1.2;
+            let isDragging = false, moved = false, startX = 0, scrollLeft = 0;
+
+            el.addEventListener('pointerdown', e => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                isDragging = true;
+                moved = false;
+                startX = e.clientX;
+                scrollLeft = el.scrollLeft;
+                el.setPointerCapture(e.pointerId);
+                el.classList.add('dragging');
             });
-            let touchStartX = 0, touchScrollLeft = 0;
-            el.addEventListener('touchstart', e => { touchStartX = e.touches[0].pageX; touchScrollLeft = el.scrollLeft; }, { passive: true });
-            el.addEventListener('touchmove', e => { el.scrollLeft = touchScrollLeft - (e.touches[0].pageX - touchStartX); }, { passive: true });
+
+            el.addEventListener('pointermove', e => {
+                if (!isDragging) return;
+                const distance = e.clientX - startX;
+                if (Math.abs(distance) > 4) moved = true;
+                el.scrollLeft = scrollLeft - distance * 1.15;
+                if (moved) e.preventDefault();
+            });
+
+            const stopDragging = e => {
+                if (!isDragging) return;
+                isDragging = false;
+                el.classList.remove('dragging');
+                if (e.pointerId !== undefined && el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+            };
+
+            el.addEventListener('pointerup', stopDragging);
+            el.addEventListener('pointercancel', stopDragging);
+            el.addEventListener('click', e => {
+                if (moved) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    moved = false;
+                }
+            }, true);
         })();
 
         /* LIGHTBOX */
